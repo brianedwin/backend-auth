@@ -14,9 +14,10 @@ passport.use(
                 let user = await db.query("SELECT * FROM users WHERE email = $1", [profile.emails[0].value]);
 
                 if (!user.rows.length) {
+                    // Create new user if not exists
                     user = await db.query(
-                        "INSERT INTO users (email, role, is_verified) VALUES ($1, $2, TRUE) RETURNING *",
-                        [profile.emails[0].value, "student"]
+                        "INSERT INTO users (email, password, role, is_verified) VALUES ($1, $2, $3, TRUE) RETURNING *",
+                        [profile.emails[0].value, null, "student"]
                     );
                 }
 
