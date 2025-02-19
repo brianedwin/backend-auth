@@ -19,3 +19,4 @@ router.get("/student-grades", authorize(["student"]), (req, res) => {
 });
 
 module.exports = router;
+
