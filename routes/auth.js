@@ -44,10 +44,13 @@ router.post("/login", async (req, res) => {
 });
 
 // Google OAuth Routes
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/" }), async (req, res) => {
-    const token = jwt.sign({ userId: req.user.id, role: req.user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.redirect(`${process.env.FRONTEND_URL}/auth-success?token=${token}`);
-});
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"], session: false }));
+router.get("/google/callback",
+    passport.authenticate("google", { failureRedirect: "/", session: false }),
+    async (req, res) => {
+        const token = jwt.sign({ userId: req.user.id, role: req.user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.redirect(`${process.env.FRONTEND_URL}/auth-success?token=${token}`);
+    }
+);
 
 module.exports = router;
