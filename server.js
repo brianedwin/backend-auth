@@ -17,4 +17,7 @@ app.use("/auth", authRoutes);
 app.use("/protected", protectedRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const HOST = "0.0.0.0";  // Allows external access
+
+app.listen(PORT, HOST, () => console.log(`Server running on http://${HOST}:${PORT}`));
+
